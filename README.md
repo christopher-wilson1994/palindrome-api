@@ -24,8 +24,8 @@ make bootstrap-local
 **Manual**
 
 ```bash
-	mvn clean package -f ./palindrome-api -DskipTests
-    java -jar -Dspring.profiles.active=local ./palindrome-api/target/palindrome-api-0.0.1-SNAPSHOT.jar
+mvn clean package -f ./palindrome-api -DskipTests
+java -jar -Dspring.profiles.active=local ./palindrome-api/target/palindrome-api-0.0.1-SNAPSHOT.jar
 ```
 
 ### Scalable
