@@ -1,0 +1,39 @@
+version: "3"
+services:
+  palindrome-api:
+    build: ./palindrome-api
+    ports:
+      - 8080:8080
+    environment:
+      - MYSQL_HOST=db
+      - MYSQL_PORT=3306
+      - MYSQL_DATABASE=palindrome
+      - MYSQL_USER=username
+      - MYSQL_PASSWORD=secretpassword
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - SPRING_PROFILES_ACTIVE=scalable
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  db:
+    image: mysql:8.0
+    environment:
+      - MYSQL_DATABASE=palindrome
+      - MYSQL_USER=username
+      - MYSQL_PASSWORD=secretpassword
+      - MYSQL_RANDOM_ROOT_PASSWORD=true
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 15s
+      retries: 5
+
+  redis:
+    image: redis:7.0.11
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      timeout: 15s
+      retries: 5
